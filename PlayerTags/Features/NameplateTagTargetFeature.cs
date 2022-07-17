@@ -19,6 +19,7 @@ namespace PlayerTags.Features
         private PluginConfiguration m_PluginConfiguration;
         private PluginData m_PluginData;
         private Nameplate? m_Nameplate;
+        private readonly IconSet iconSet = new();
 
         public NameplateTagTargetFeature(PluginConfiguration pluginConfiguration, PluginData pluginData)
         {
@@ -132,6 +133,15 @@ namespace PlayerTags.Features
             else if (m_PluginConfiguration.NameplateFreeCompanyVisibility == NameplateFreeCompanyVisibility.Never)
             {
                 args.FreeCompany.Payloads.Clear();
+            }
+
+            var jobId = args.PlayerCharacter.ClassJob.Id;
+            if (jobId >= 1 && jobId < Enum.GetValues(typeof(Job)).Length)
+            {
+                //var job = (Job)args.PlayerCharacter.ClassJob.Id;
+                //var genericRole = JobExtensions.GetRole(job);
+                var iconSet = "Framed";
+                args.IconId = this.iconSet.GetJobIcon(iconSet, jobId);
             }
         }
 
